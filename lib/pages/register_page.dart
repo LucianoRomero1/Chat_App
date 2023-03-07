@@ -1,8 +1,11 @@
+import 'package:chat_app/helpers/show_alert.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/btn_blue.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/labels.dart';
 import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -49,6 +52,9 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
         margin: const EdgeInsets.only(top: 40),
         padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -73,10 +79,17 @@ class _FormState extends State<_Form> {
               textController: passCtrl,
             ),
             BtnBlue(
-                text: "Login",
-                onPressed: () {
+                text: "Register",
+                onPressed: authService.authenticating ? () => null : () async {
+                  print(emailCtrl.text);
                   print(nameCtrl.text);
                   print(passCtrl.text);
+                  final registerOk = authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passCtrl.text.trim());
+                  if(registerOk == true){
+                    Navigator.pushReplacementNamed(context, 'users');
+                  }else{
+                    showAlert(context, "Incorrect register", registerOk.toString());
+                  }
                 })
           ],
         ));
