@@ -160,6 +160,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "239402c239e2a390cf745af3a496fb985dc8f0b31b3f5fe0d460e42289d33ad7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.4"
   matcher:
     dependency: transitive
     description:
@@ -229,6 +237,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  socket_io_client:
+    dependency: "direct main"
+    description:
+      name: socket_io_client
+      sha256: ffcf57f3f4ecd8e9ce612d896eec25de0ea430cc3ebcbb0513d948db1b3ebe83
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.12"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      sha256: "28f44aaf7d3f2401b352b2668e1c5debcc3c03d5a8b43f820a8817fbb18c9834"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.2"
   source_span:
     dependency: transitive
     description:

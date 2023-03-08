@@ -1,5 +1,6 @@
 import 'package:chat_app/helpers/show_alert.dart';
 import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,8 +53,8 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-
     final authService = Provider.of<AuthService>(context, listen: false);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
         margin: const EdgeInsets.only(top: 40),
@@ -74,16 +75,21 @@ class _FormState extends State<_Form> {
             ),
             BtnBlue(
                 text: "Login",
-                onPressed: authService.authenticating ? () => null : () async{
-                  //Esto me baja el teclado si puse credenciales invalidas
-                  FocusScope.of(context).unfocus();
-                  final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
-                  if(loginOk){
-                    Navigator.pushReplacementNamed(context, 'users');
-                  }else{
-                    showAlert(context, "Login failed", "Invalid credentials");
-                  }
-                })
+                onPressed: authService.authenticating
+                    ? () => null
+                    : () async {
+                        //Esto me baja el teclado si puse credenciales invalidas
+                        FocusScope.of(context).unfocus();
+                        final loginOk = await authService.login(
+                            emailCtrl.text.trim(), passCtrl.text.trim());
+                        if (loginOk) {
+                          socketService.connect();
+                          Navigator.pushReplacementNamed(context, 'users');
+                        } else {
+                          showAlert(
+                              context, "Login failed", "Invalid credentials");
+                        }
+                      })
           ],
         ));
   }
